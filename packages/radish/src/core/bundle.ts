@@ -142,8 +142,10 @@ export async function bundle(options: BundleOptions): Promise<boolean> {
     websocket: options.websocket
   });
   results.push(...renderResults);
-  const swResult = await buildServiceWorker(DEST, PREFIX);
-  results.push(swResult);
+  if (SERVICE_WORKER) {
+    const swResult = await buildServiceWorker(DEST, PREFIX);
+    results.push(swResult);
+  }
 
   const errors = results.filter(result => result.error);
   reportErrors(errors);
